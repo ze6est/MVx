@@ -19,9 +19,7 @@ namespace MVC
             _mvcController = new MvcController(_mvcModel, _mvcView);
         }
 
-        private void OnDestroy()
-        {
+        private void OnDestroy() => 
             _mvcController.Dispose();
-        }
     }
 }

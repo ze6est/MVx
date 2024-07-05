@@ -1,12 +1,11 @@
-using MVC.Model;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-namespace MVC.View
+namespace MVP.View
 {
-    public class MvcView : MonoBehaviour
+    public class MvpView : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _intValue;
         [SerializeField] private TextMeshProUGUI _stringValue;
@@ -16,14 +15,9 @@ namespace MVC.View
 
         [SerializeField] private TMP_InputField _inputField;
 
-        private MvcModel _model;
-
         public event UnityAction IncrementButtonClick;
         public event UnityAction DecrementButtonClick;
         public event UnityAction<string> InputFieldValueChanged;
-
-        public void Construct(MvcModel model) => 
-            _model = model;
 
         private void Awake()
         {
@@ -31,18 +25,18 @@ namespace MVC.View
             _decrementButton.onClick.AddListener(OnDecrementButtonClick);
             _inputField.onValueChanged.AddListener(OnInputFieldValueChanged);
         }
-
-        private void Update()
-        {
-            _intValue.text = _model.IntValue.ToString();
-            _stringValue.text = _model.StringValue;
-        }
-
+        
         private void OnDestroy()
         {
             _incrementButton.onClick.RemoveListener(OnIncrementButtonClick);
             _decrementButton.onClick.RemoveListener(OnDecrementButtonClick);
         }
+
+        public void UpdateIntValue(int value) => 
+            _intValue.text = value.ToString();
+
+        public void UpdateStringValue(string value) => 
+            _stringValue.text = value;
 
         private void OnIncrementButtonClick() => 
             IncrementButtonClick?.Invoke();

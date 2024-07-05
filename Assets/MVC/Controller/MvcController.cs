@@ -6,8 +6,8 @@ namespace MVC.Controller
 {
     public class MvcController : IDisposable
     {
-        private MvcModel _model;
-        private MvcView _view;
+        private readonly MvcModel _model;
+        private readonly MvcView _view;
 
         public MvcController(MvcModel model, MvcView view)
         {
@@ -26,19 +26,13 @@ namespace MVC.Controller
             _view.InputFieldValueChanged -= OnInputFieldValueChanged;
         }
 
-        private void OnIncrementButtonClick()
-        {
+        private void OnIncrementButtonClick() => 
             _model.IncrementIntValue();
-        }
 
-        private void OnDecrementButtonClick()
-        {
+        private void OnDecrementButtonClick() => 
             _model.DecrementIntValue();
-        }
 
-        private void OnInputFieldValueChanged(string value)
-        {
+        private void OnInputFieldValueChanged(string value) => 
             _model.SetStringValue(value);
-        }
     }
 }

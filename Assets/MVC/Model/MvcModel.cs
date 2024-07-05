@@ -2,25 +2,16 @@ namespace MVC.Model
 {
     public class MvcModel
     {
-        private int _intValue;
-        private string _stringValue;
+        public int IntValue;
+        public string StringValue;
 
-        public int IntValue => _intValue;
-        public string StringValue => _stringValue;
+        public void IncrementIntValue() => 
+            IntValue++;
 
-        public void IncrementIntValue()
-        {
-            _intValue++;
-        }
-        
-        public void DecrementIntValue()
-        {
-            _intValue--;
-        }
+        public void DecrementIntValue() => 
+            IntValue--;
 
-        public void SetStringValue(string value)
-        {
-            _stringValue = value;
-        }
+        public void SetStringValue(string value) => 
+            StringValue = value;
     }
 }
