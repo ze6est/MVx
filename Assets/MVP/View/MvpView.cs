@@ -30,6 +30,7 @@ namespace MVP.View
         {
             _incrementButton.onClick.RemoveListener(OnIncrementButtonClick);
             _decrementButton.onClick.RemoveListener(OnDecrementButtonClick);
+            _inputField.onValueChanged.RemoveListener(OnInputFieldValueChanged);
         }
 
         public void UpdateIntValue(int value) => 

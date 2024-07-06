@@ -1,38 +1,21 @@
-using System;
 using MVC.Model;
-using MVC.View;
 
 namespace MVC.Controller
 {
-    public class MvcController : IDisposable
+    public class MvcController
     {
         private readonly MvcModel _model;
-        private readonly MvcView _view;
 
-        public MvcController(MvcModel model, MvcView view)
-        {
+        public MvcController(MvcModel model) => 
             _model = model;
-            _view = view;
-            
-            _view.IncrementButtonClick += OnIncrementButtonClick;
-            _view.DecrementButtonClick += OnDecrementButtonClick;
-            _view.InputFieldValueChanged += OnInputFieldValueChanged;
-        }
-        
-        public void Dispose()
-        {
-            _view.IncrementButtonClick -= OnIncrementButtonClick;
-            _view.DecrementButtonClick -= OnDecrementButtonClick;
-            _view.InputFieldValueChanged -= OnInputFieldValueChanged;
-        }
 
-        private void OnIncrementButtonClick() => 
+        public void IncrementIntValue() =>
             _model.IncrementIntValue();
 
-        private void OnDecrementButtonClick() => 
+        public void DecrementIntValue() =>
             _model.DecrementIntValue();
 
-        private void OnInputFieldValueChanged(string value) => 
+        public void SetStringValue(string value) =>
             _model.SetStringValue(value);
     }
 }

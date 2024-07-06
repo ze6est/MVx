@@ -15,11 +15,8 @@ namespace MVC
         private void Awake()
         {
             _mvcModel = new MvcModel();
-            _mvcView.Construct(_mvcModel);
-            _mvcController = new MvcController(_mvcModel, _mvcView);
+            _mvcController = new MvcController(_mvcModel);
+            _mvcView.Construct(_mvcModel, _mvcController);
         }
-
-        private void OnDestroy() => 
-            _mvcController.Dispose();
     }
 }

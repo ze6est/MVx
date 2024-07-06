@@ -1,12 +1,11 @@
-using MVC.Controller;
-using MVC.Model;
+using MVVM.ViewModel;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace MVC.View
+namespace MVVM.View
 {
-    public class MvcView : MonoBehaviour
+    public class MvvmView : MonoBehaviour
     {
         [SerializeField] private TextMeshProUGUI _intValue;
         [SerializeField] private TextMeshProUGUI _stringValue;
@@ -16,15 +15,16 @@ namespace MVC.View
 
         [SerializeField] private TMP_InputField _inputField;
 
-        private MvcModel _model;
-        private MvcController _mvcController;
+        private MvvmViewModel _mvvmViewModel;
 
-        public void Construct(MvcModel model, MvcController mvcController)
+        public void Construct(MvvmViewModel mvvmViewModel)
         {
-            _model = model;
-            _mvcController = mvcController;
+            _mvvmViewModel = mvvmViewModel;
+            
+            _mvvmViewModel.IntValueChanged += OnIntValueChanged;
+            _mvvmViewModel.StringValueChanged += OnStringValueChanged;
         }
-
+        
         private void Awake()
         {
             _incrementButton.onClick.AddListener(OnIncrementButtonClick);
@@ -32,26 +32,29 @@ namespace MVC.View
             _inputField.onValueChanged.AddListener(OnInputFieldValueChanged);
         }
 
-        private void Update()
-        {
-            _intValue.text = _model.IntValue.ToString();
-            _stringValue.text = _model.StringValue;
-        }
-
         private void OnDestroy()
         {
             _incrementButton.onClick.RemoveListener(OnIncrementButtonClick);
             _decrementButton.onClick.RemoveListener(OnDecrementButtonClick);
             _inputField.onValueChanged.RemoveListener(OnInputFieldValueChanged);
+            
+            _mvvmViewModel.IntValueChanged -= OnIntValueChanged;
+            _mvvmViewModel.StringValueChanged -= OnStringValueChanged;
         }
 
         private void OnIncrementButtonClick() => 
-            _mvcController.IncrementIntValue();
+            _mvvmViewModel.IncrementIntValue();
 
         private void OnDecrementButtonClick() => 
-            _mvcController.DecrementIntValue();
+            _mvvmViewModel.DecrementIntValue();
 
         private void OnInputFieldValueChanged(string value) => 
-            _mvcController.SetStringValue(value);
+            _mvvmViewModel.SetStringValue(value);
+        
+        private void OnIntValueChanged(int value) => 
+            _intValue.text = value.ToString();
+
+        private void OnStringValueChanged(string value) => 
+            _stringValue.text = value;
     }
 }
