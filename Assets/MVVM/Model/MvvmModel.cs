@@ -1,25 +1,16 @@
-using UnityEngine.Events;
+using UniRx;
 
 namespace MVVM.Model
 {
     public class MvvmModel
     {
-        private int _intValue;
-        private string _stringValue;
+        public readonly ReactiveProperty<int> Score = new(0);
+        public readonly ReactiveProperty<string> TextValue = new();
 
-        public event UnityAction<int> IntValueChanged;
-        public event UnityAction<string> StringValueChanged;
+        public void ChangeIntValue(int value) => 
+            Score.Value = value;
 
-        public void ChangeIntValue(int value)
-        {
-            _intValue = value;
-            IntValueChanged?.Invoke(_intValue);
-        }
-
-        public void ChangeStringValue(string value)
-        {
-            _stringValue = value;
-            StringValueChanged?.Invoke(_stringValue);
-        }
+        public void ChangeStringValue(string value) => 
+            TextValue.Value = value;
     }
 }

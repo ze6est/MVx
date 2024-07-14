@@ -1,64 +1,49 @@
 using System;
 using MVVM.Model;
-using UnityEngine.Events;
+using UniRx;
 
 namespace MVVM.ViewModel
 {
     public class MvvmViewModel : IDisposable
     {
-        private int _intValue;
-        private string _stringValue;
+        public readonly ReactiveProperty<int> Score = new();
+        public readonly ReactiveProperty<string> TextValue = new();
 
-        private MvvmModel _mvvmModel;
-
-        public event UnityAction<int> IntValueChanged;
-        public event UnityAction<string> StringValueChanged;
+        private readonly CompositeDisposable _disposable = new();
+        private readonly MvvmModel _mvvmModel;
 
         public MvvmViewModel(MvvmModel mvvmModel)
         {
             _mvvmModel = mvvmModel;
 
-            _mvvmModel.IntValueChanged += OnIntValueChanged;
-            _mvvmModel.StringValueChanged += OnStringValueChanged;
+            _mvvmModel.Score.Subscribe(_ => 
+                Score.Value = _mvvmModel.Score.Value)
+                .AddTo(_disposable);
+
+            _mvvmModel.TextValue.Subscribe(_ => 
+                TextValue.Value = _mvvmModel.TextValue.Value)
+                .AddTo(_disposable);
         }
         
         public void IncrementIntValue()
         {
-            _intValue++;
-            _mvvmModel.ChangeIntValue(_intValue);
-            IntValueChanged?.Invoke(_intValue);
+            Score.Value++;
+            _mvvmModel.ChangeIntValue(Score.Value);
         }
         
         public void DecrementIntValue()
         {
-            _intValue--;
-            _mvvmModel.ChangeIntValue(_intValue);
-            IntValueChanged?.Invoke(_intValue);
+            Score.Value--;
+            _mvvmModel.ChangeIntValue(Score.Value);
         }
         
         public void SetStringValue(string value)
         {
-            _stringValue = value;
-            _mvvmModel.ChangeStringValue(_stringValue);
-            StringValueChanged?.Invoke(_stringValue);
+            TextValue.Value = value;
+            _mvvmModel.ChangeStringValue(TextValue.Value);
         }
         
-        public void Dispose()
-        {
-            _mvvmModel.IntValueChanged -= OnIntValueChanged;
-            _mvvmModel.StringValueChanged -= OnStringValueChanged;
-        }
-
-        private void OnIntValueChanged(int value)
-        {
-            _intValue = value;
-            IntValueChanged?.Invoke(_intValue);
-        }
-
-        private void OnStringValueChanged(string value)
-        {
-            _stringValue = value;
-            StringValueChanged?.Invoke(_stringValue);
-        }
+        public void Dispose() => 
+            _disposable.Clear();
     }
 }
