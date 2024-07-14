@@ -16,12 +16,12 @@ namespace MVVM.ViewModel
         {
             _mvvmModel = mvvmModel;
 
-            _mvvmModel.Score.Subscribe(_ => 
-                Score.Value = _mvvmModel.Score.Value)
+            _mvvmModel.Score.Subscribe(value => 
+                Score.Value = value)
                 .AddTo(_disposable);
 
-            _mvvmModel.TextValue.Subscribe(_ => 
-                TextValue.Value = _mvvmModel.TextValue.Value)
+            _mvvmModel.TextValue.Subscribe(value => 
+                TextValue.Value = value)
                 .AddTo(_disposable);
         }
         

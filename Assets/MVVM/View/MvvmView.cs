@@ -23,12 +23,12 @@ namespace MVVM.View
         {
             _mvvmViewModel = mvvmViewModel;
 
-            _mvvmViewModel.Score.Subscribe(_ => 
-                _intValue.text = _mvvmViewModel.Score.Value.ToString())
+            _mvvmViewModel.Score.Subscribe(value => 
+                _intValue.text = value.ToString())
                 .AddTo(_disposable);
 
-            _mvvmViewModel.TextValue.Subscribe(_ => 
-                _stringValue.text = _mvvmViewModel.TextValue.Value)
+            _mvvmViewModel.TextValue.Subscribe(value => 
+                _stringValue.text = value)
                 .AddTo(_disposable);
         }
         
